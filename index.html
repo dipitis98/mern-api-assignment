@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe - API Project</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <!-- font awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <!-- header section -->
+    <header>
+        <img class="logo" src="./images/logo.png" alt="logo">
+    </header>
+
+    <main>
+        <!-- title image section -->
+        <div class="title-image-container">
+            <img class="hero" src="./images/page-title.jpg" alt="title-image">
+            <div class="details-container">
+                <h1 class="hero-heading">Search Your <br>Favourite Recipe</h1>
+                <p class="hero-paragraph">A handful of simple ingredients typify the fresh, vibrant flavors of Greek
+                    cooking</p>
+            </div>
+        </div>
+
+        <!-- search section -->
+        <div class="search-container">
+            <input type="text" name="search" id="search" placeholder="Search">
+            <label for="search" class="search"><i class="fa-solid fa-magnifying-glass"
+                    style="color: #ffffff;"></i></label>
+        </div>
+
+        <!-- recipe-container section -->
+        <div class="recipe-container">
+            <h2 class="recipe-heading">Latest Recipes</h2>
+            <!-- <div class="loader"></div> -->
+            <div class="box"></div>
+        </div>
+    </main>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>

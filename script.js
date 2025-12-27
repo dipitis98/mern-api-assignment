@@ -13,7 +13,7 @@ async function getFoods() {
     showLoader() // খেলা শুরুর আগে লোডিং দেখাবে
 
     try {
-      const apiUrl = "https://www.themealdb.om/api/json/v1/1/search.php?s=" // যে সাইটে খেলা দেখাবে, সেটা সেইভ করলাম
+      const apiUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s=" // যে সাইটে খেলা দেখাবে, সেটা সেইভ করলাম
       const response = await axios.get(apiUrl) // axios দিয়ে ডাটাগুলো dynamically fetch করে নিলাম
       const foodList = response.data.meals // খাবারের ডাটাগুলোর অবজেক্টটা নিলাম, এখানে for...of লুপ চালাতে হবে
       // console.log(foodList)

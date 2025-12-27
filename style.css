@@ -83,10 +83,12 @@ header {
 /* Loader Section */
 .loader {
     position: fixed;
-    top: 10%;
-    left: 5%;
-    width: 90vw;
-    height: 90vh;
+    inset: 0;
+    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(2px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -137,6 +139,12 @@ header {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
+}
+
+.error {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #888;
 }
 
 /* --- Card UI --- */
@@ -194,7 +202,7 @@ header {
 
 /* --- Footer --- */
 footer {
-    background: #1a1a1a;
+    background-color: #1a1a1a;
     color: #888;
     padding: 1rem;
     text-align: center;

@@ -23,32 +23,29 @@
     <header>
         <img class="logo" src="./images/logo.png" alt="logo">
     </header>
-
-    <main>
-        <!-- title image section -->
-        <div class="title-image-container">
-            <img class="hero" src="./images/page-title.jpg" alt="title-image">
-            <div class="details-container">
-                <h1 class="hero-heading">Search Your <br>Favourite Recipe</h1>
-                <p class="hero-paragraph">A handful of simple ingredients typify the fresh, vibrant flavors of Greek
-                    cooking</p>
-            </div>
+    <!-- title image section -->
+    <div class="title-image-container">
+        <img class="hero" src="./images/page-title.jpg" alt="title-image">
+        <div class="details-container">
+            <h1 class="hero-heading">Search Your <br>Favourite Recipe</h1>
+            <p class="hero-paragraph">A handful of simple ingredients typify the fresh, vibrant flavors of Greek
+                cooking</p>
         </div>
+    </div>
 
-        <!-- search section -->
-        <div class="search-container">
-            <input type="text" name="search" id="search" placeholder="Search">
-            <label for="search" class="search"><i class="fa-solid fa-magnifying-glass"
-                    style="color: #ffffff;"></i></label>
-        </div>
+    <!-- search section -->
+    <div class="search-container">
+        <input type="text" name="search" id="search" placeholder="Search recipe (e.g. Chicken)...">
+        <label for="search" class="search"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></label>
+    </div>
 
-        <!-- recipe-container section -->
-        <div class="recipe-container">
-            <h2 class="recipe-heading">Latest Recipes</h2>
-            <!-- <div class="loader"></div> -->
-            <div class="box"></div>
-        </div>
+    <!-- recipe-container section -->
+    <main class="container">
+        <h2 class="title">Latest Recipes</h2>
+        <!-- <div class="loader"></div> -->
+        <div id="recipe-grid"></div>
     </main>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./script.js"></script>
 </body>

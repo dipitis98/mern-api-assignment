@@ -72,6 +72,14 @@ header {
     border: none;
 }
 
+form i {
+    transition: all 0.3s ease-in-out;
+}
+
+form i:hover {
+    transform: rotate(-0.13turn);
+}
+
 /* Loader Section */
 .loader {
     position: fixed;
@@ -192,12 +200,105 @@ header {
     margin-top: auto;
 }
 
-/* --- Footer --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 15px;
+}
+
+.modal-content {
+    background-color: white;
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    max-height: 85vh;
+    border-radius: 15px;
+    position: relative;
+    overflow-y: auto;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.1);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.close-icon {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    z-index: 10;
+    text-shadow: 0 0 5px #000;
+}
+
+.close-btn-modal {
+    background: #ffc107;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: auto;
+    margin-bottom: 1rem;
+    position: relative;
+    left: 85%;
+}
+
+.modal-img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-bottom: 5px solid #ffc107;
+}
+
+.modal-info {
+    padding: 25px;
+}
+
+
+/* --- Footer Section --- */
 footer {
-    background-color: #1a1a1a;
-    color: #888;
+    background-color: #fff;
+    color: #000000;
     padding: 1rem;
     text-align: center;
     margin-top: 50px;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+footer a {
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+footer i {
+    transition: all 0.2s ease-in-out;
+}
+
+footer i:hover {
+    transform: scale(1.5);
 }

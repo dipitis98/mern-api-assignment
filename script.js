@@ -1,8 +1,9 @@
 const loader = document.querySelector(".loader")                           // এটা দিয়ে loader ক্লাসকে ধরলাম
 const grid = document.getElementById("recipe-grid");                       // এটার মধ্যেই সব খেলা এড হবে dynamically
 const search = document.getElementById("search")                           // সার্চ বারে সব ফাংশনালিটি যুক্ত করার জন্য ধরলাম
-const searchForm = document.getElementById("searchForm")
-
+const searchForm = document.getElementById("searchForm")                   // সার্চ দিলে যা যা কাজ হবে
+const modalOverlay = document.getElementById("modal-overlay")
+const modalBody = document.getElementById("modal-body-content")
 
 // =========== =========== loader function =========== =========== //
 function showLoader() {                                                    // loading effect অন করার ফাংশন
@@ -14,23 +15,24 @@ function hideLoader() {                                                    // lo
 
 // =========== =========== Card Showing function =========== =========== //
 function showFoods(list) {     
-      grid.innerHTML = ""                                                  // প্রথমে ডায়নামিক div এ কিছু থেকে থাকলে তা খালি করে নিবে
-      for (const meal of list) {                                           // ডাটা পাওয়া গেলে লুপ চলবে
-        const card = document.createElement("div");                        // একটা ভ্যারিয়েবল নিলাম, যা dynamically একটা div তৈরি করবে
-        card.className = "card";                                           // ঐ div এর ক্লাস এর নাম সেট করলাম
-        card.innerHTML = `     
-        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">     
-        <div class="card-body">    
-        <h3>${meal.strMeal}</h3>     
-        <p>${meal.strInstructions.substring(0, 100)}...</p>    
-        <button class="view-btn" onclick="openModal('${    
-          meal.idMeal    
-        }')">VIEW DETAILS</button>     
-        </div>     
-        `;                                                                 // ঐ div এর মধ্যে সিরিয়ালি খাবারের ছবি, নাম, ডিটেইলস আর বাটন dynamically add করবে
-        grid.appendChild(card);                                            // পুরো div টা dynamically DOM-এ add করবে
-      }    
-    }
+  grid.innerHTML = ""                                                  // প্রথমে ডায়নামিক div এ কিছু থেকে থাকলে তা খালি করে নিবে
+  for (const meal of list) {                                           // ডাটা পাওয়া গেলে লুপ চলবে
+    const card = document.createElement("div");                        // একটা ভ্যারিয়েবল নিলাম, যা dynamically একটা div তৈরি করবে
+    card.className = "card";                                           // ঐ div এর ক্লাস এর নাম সেট করলাম
+    card.dataset.id = meal.idMeal
+    card.innerHTML = `     
+    <img src="${meal.strMealThumb}" alt="${meal.strMeal}">     
+    <div class="card-body">    
+    <h3>${meal.strMeal}</h3>     
+    <p>${meal.strInstructions.substring(0, 100)}...</p>    
+    <button class="view-btn" onclick="openModal('${
+          meal.idMeal
+        }')">VIEW DETAILS</button>
+    </div>     
+    `;                                                                 // ঐ div এর মধ্যে সিরিয়ালি খাবারের ছবি, নাম, ডিটেইলস আর বাটন dynamically add করবে
+    grid.appendChild(card);                                            // পুরো div টা dynamically DOM-এ add করবে
+  }    
+}
 
 // =========== =========== API Calling function =========== =========== //
 let allFoods = []                                                          // সব খাবারের ডেটা এখানে থাকবে
@@ -42,6 +44,7 @@ async function getFoods() {
     const response = await axios.get(apiUrl)                               // axios দিয়ে ডাটাগুলো dynamically fetch করে নিলাম
     const foodList = response.data.meals                                   // খাবারের ডাটাগুলোর অবজেক্টটা নিলাম, এখানে for...of লুপ চালাতে হবে
     allFoods = foodList                                                    // API থেকে পাওয়া ডাটা এখানে সেইভ রাখলাম
+    // console.log(allFoods)
     
     grid.innerHTML = ""    
 
@@ -63,12 +66,11 @@ async function getFoods() {
     errorMsg.classList.add("error")                                        // p tag এর ক্লাস নেইম সেট করলাম css effect পাওয়ার জন্য
     errorMsg.innerHTML = "Oops. Something went wrong. Please try again."   // p tag এর মধ্যে error message set করলাম
     grid.appendChild(errorMsg)                                             // পুরো p tag-টা DOM-এ dynamically add হবে
+    
   } finally {                                                              // সবশেষে যা হবে
     hideLoader()                                                           // লোড হওয়া শেষে loading effect সরিয়ে ফেলবে
   }    
 }    
-getFoods()                                                                 // সাইটে ঢুকা মাত্র এই ফাংশন automatic call হবে
-
 
 // =========== =========== Search function =========== =========== //
 function handleSearch(text) {                                              // এই ফাংশনটা যা যা সার্চ দেওয়া হবে, সেগুলোকেই প্যারামিটার হিসেবে নিয়ে কাজ করবে
@@ -103,3 +105,41 @@ searchForm.addEventListener("submit", e => {
   e.preventDefault()
   handleSearch(search.value)
 })
+
+// =========== =========== Open Modal Function =========== =========== //
+async function openModal(id) {
+  showLoader()
+
+  try {
+    const apiUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}` // যে সাইটে খেলা দেখাবে, সেটা সেইভ করলাম
+    const response = await axios.get(apiUrl)                               // axios দিয়ে ডাটাগুলো dynamically fetch করে নিলাম
+    const meal = response.data.meals[0]
+    console.log(meal)
+
+    modalBody.innerHTML = `<img src="${meal.strMealThumb}" class="modal-img">
+    <div class="modal-info">
+        <h2>${meal.strMeal}</h2>
+        <p style="margin-top: 15px; text-align:justify">${meal.strInstructions}</p>
+    </div>
+    `
+    modalOverlay.style.display = "flex"
+    document.body.style.overflow = "hidden"
+
+  } catch (err) {
+    console.error(err)
+
+  } finally {
+    hideLoader()
+  }
+}
+
+function closeModal() {
+  modalBody.innerHTML = ""
+  modalOverlay.style.display = "none"
+  document.body.style.overflow = "auto"
+}
+
+document.getElementById("close-icon").onclick = closeModal
+document.getElementById("close-btn-modal").onclick = closeModal
+
+getFoods()                                                                 // সাইটে ঢুকা মাত্র এই ফাংশন automatic call হবে

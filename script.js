@@ -2,8 +2,9 @@ const loader = document.querySelector(".loader")                           // �
 const grid = document.getElementById("recipe-grid");                       // এটার মধ্যেই সব খেলা এড হবে dynamically
 const search = document.getElementById("search")                           // সার্চ বারে সব ফাংশনালিটি যুক্ত করার জন্য ধরলাম
 const searchForm = document.getElementById("searchForm")                   // সার্চ দিলে যা যা কাজ হবে
-const modalOverlay = document.getElementById("modal-overlay")
-const modalBody = document.getElementById("modal-body-content")
+const modalOverlay = document.getElementById("modal-overlay")              // এই div এর মধ্যে মডাল রিলেটেড সব কন্টেন্ট এড হবে
+const modalBody = document.getElementById("modal-body-content")            // এই div এ মডালের সব child dynamically এড হবে
+const backBtn = document.getElementById("backToTopBtn");                   // back to top বাটনের ফাংশনালিটির জন্য এটাকে ধরলাম
 
 // =========== =========== loader function =========== =========== //
 function showLoader() {                                                    // loading effect অন করার ফাংশন
@@ -107,39 +108,69 @@ searchForm.addEventListener("submit", e => {
 })
 
 // =========== =========== Open Modal Function =========== =========== //
-async function openModal(id) {
-  showLoader()
+async function openModal(id) {             // এই ফাংশনটা নির্দিষ্ট card এর id নিয়ে Modal ওপেন করবে
+  
+  showLoader()                             // API call শুরু হওয়ার আগে Loader চালু করলাম
 
-  try {
-    const apiUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}` // যে সাইটে খেলা দেখাবে, সেটা সেইভ করলাম
-    const response = await axios.get(apiUrl)                               // axios দিয়ে ডাটাগুলো dynamically fetch করে নিলাম
-    const meal = response.data.meals[0]
-    console.log(meal)
+  try {                                    // try ব্লকের মধ্যে risky কোড রাখা হয় (API call, JSON read ইত্যাদি)
 
-    modalBody.innerHTML = `<img src="${meal.strMealThumb}" class="modal-img">
-    <div class="modal-info">
+    const apiUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}` // যে API থেকে খাবারের ডিটেইলস আনবো, সেখানে dynamic id বসালাম
+    const response = await axios.get(apiUrl)                                    // axios দিয়ে API call করলাম (await = data আসা পর্যন্ত কোড থেমে থাকবে
+    const meal = response.data.meals[0]                                         // API response থেকে meals array এর প্রথম item টি নিলাম
+    console.log(meal) 
+
+    // Modal এর ভিতরের content dynamically সেট করলাম
+    modalBody.innerHTML = `
+      <img src="${meal.strMealThumb}" class="modal-img">
+
+      <div class="modal-info">
         <h2>${meal.strMeal}</h2>
-        <p style="margin-top: 15px; text-align:justify">${meal.strInstructions}</p>
-    </div>
+
+        <!-- Full instructions text দেখালাম -->
+        <p style="margin-top: 15px; text-align:justify">
+          ${meal.strInstructions}
+        </p>
+      </div>
     `
-    modalOverlay.style.display = "flex"
-    document.body.style.overflow = "hidden"
 
-  } catch (err) {
-    console.error(err)
+    modalOverlay.style.display = "flex"     // Modal overlay কে visible করলাম
+    document.body.style.overflow = "hidden" // Modal ওপেন থাকা অবস্থায় body scroll বন্ধ করলাম
 
-  } finally {
-    hideLoader()
+
+  } catch (err) {                           // API error হলে catch ব্লকে আসবে
+    console.error(err)                      // console-এ error দেখাবে (debug করার জন্য)
+  
+  } finally {                               // try হোক বা catch — finally সবসময়ই চলবে
+
+    hideLoader()                            // Modal load শেষ -> Loader বন্ধ করলাম
   }
 }
 
-function closeModal() {
-  modalBody.innerHTML = ""
-  modalOverlay.style.display = "none"
-  document.body.style.overflow = "auto"
+function closeModal() {                                           // মডাল বন্ধ করার কাজ করবে
+  modalBody.innerHTML = ""                                        // প্রথমে মডালের ভেতরের কন্টেন্ট পরিষ্কার করে ফেলবে
+  modalOverlay.style.display = "none"                             // মডালকে স্ক্রিন থেকে লুকিয়ে ফেলে
+  document.body.style.overflow = "auto"                           // মডাল বন্ধ হলে স্ক্রিনের স্ক্রল আবার চালু হয়
 }
 
-document.getElementById("close-icon").onclick = closeModal
-document.getElementById("close-btn-modal").onclick = closeModal
+getFoods()                                                        // সাইটে ঢুকা মাত্র এই ফাংশন automatic call হবে
 
-getFoods()                                                                 // সাইটে ঢুকা মাত্র এই ফাংশন automatic call হবে
+// =========== =========== Scrolling - backToTop Button Section =========== =========== //
+window.addEventListener("scroll", () => {   // যখন স্ক্রল করবো, তখন নিচের কোড কাজ করবে
+
+    if (window.scrollY > 400) {             // যদি ৪০০ পিক্সেলের বেশি স্ক্রল করি
+        backBtn.classList.add("show");      // বাটনে show ক্লাসটা এড হবে
+        backBtn.classList.remove("hide");   // বাটন থেকে hide ক্লাসটা রিমুভ হবে
+    }   
+    else {                                  // নয়তো,
+        backBtn.classList.add("hide");      // বাটনে hide ক্লাসটা এড হবে
+        backBtn.classList.remove("show");   // বাটন থেকে show ক্লাসটা রিমুভ হবে
+    }
+});
+
+backBtn.addEventListener("click", (e) => {  // Back button এ ক্লিক করলে ফাংশন রান হবে
+    e.preventDefault();                     // বাটনের ডিফল্ট বিহেভিয়ার রিলোড হওয়াকে থামাবে 
+    window.scrollTo({
+        top: 0,                             // পেইজ একদম টপে স্ক্রল হবে
+        behavior: "smooth"                  // স্মুথভাবে স্ক্রল হবে
+    });
+});

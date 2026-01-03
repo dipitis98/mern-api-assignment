@@ -27,14 +27,13 @@ header {
 }
 
 .details-container {
-    /* border: 1px solid white; */
+    border: 1px solid white;
     text-align: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    /* width: 20%; */
 }
 
 .hero-heading {
@@ -276,7 +275,6 @@ form i:hover {
     padding: 25px;
 }
 
-
 /* --- Footer Section --- */
 footer {
     background-color: #fff;
@@ -301,4 +299,58 @@ footer i {
 
 footer i:hover {
     transform: scale(1.5);
+}
+
+/* --- Back To Top Icon --- */
+.iconbutton {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    display: none;
+    z-index: 999;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.iconbutton.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.iconbutton.hide {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.iconbutton a {
+    background-color: #ffc107;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    padding: 0.5rem;
+}
+
+
+/* --- Responsive Designs --- */
+@media (max-width: 1200px) {
+    #recipe-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    #recipe-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    #recipe-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    footer {
+        flex-direction: column;
+    }
 }

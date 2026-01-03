@@ -52,23 +52,33 @@
     <!-- Open Modal Section -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal-content">
-            <span class="close-icon" id="close-icon">&times;</span>
+            <span class="close-icon" id="close-icon" onclick="closeModal()">&times;</span>
             <div id="modal-body-content"></div>
             <div class="modal-footer">
-                <button type="button" class="close-btn-modal" id="close-btn-modal">CLOSE</button>
+                <button type="button" class="close-btn-modal" id="close-btn-modal" onclick="closeModal()">CLOSE</button>
             </div>
         </div>
+    </div>
+
+    <!-- Back to Top Icon Button -->
+    <div class="iconbutton" id="backToTopBtn">
+        <a href="#home" title="Back to Top">
+            <i class="fa-solid fa-arrow-up" style="color: #fff;"></i>
+        </a>
     </div>
 
     <footer>
         <p>Copyright © 2025 - All right reserved</p>
         <div class="links">
             <a target="_blank" href="https://www.facebook.com/Dip.it.is.998/">
-                <i class="fa-brands fa-facebook" style="color: #1877f2;"></i></a>
+                <i class="fa-brands fa-facebook" style="color: #1877f2;"></i>
+            </a>
             <a target="_blank" href="https://github.com/dipitis98">
-                <i class="fa-brands fa-github" style="color: #2b3137;"></i></a>
+                <i class="fa-brands fa-github" style="color: #2b3137;"></i>
+            </a>
             <a target="_blank" href="https://www.linkedin.com/in/dip-paul-595114368/">
-                <i class="fa-brands fa-square-linkedin" style="color: #0077b5;"></i></a>
+                <i class="fa-brands fa-square-linkedin" style="color: #0077b5;"></i>
+            </a>
         </div>
     </footer>
 
